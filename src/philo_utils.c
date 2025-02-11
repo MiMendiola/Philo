@@ -42,7 +42,7 @@ t_philo	*new_node(int id, char *av[])
 		return (NULL);
 	philo->id = id;
 	pthread_create(&philo->thread, NULL, philo_routine, (void *)philo);
-	pthread_mutex_init(&philo->lock, NULL);
+//	pthread_mutex_init(&philo->lock, NULL);
 	philo->prev = NULL;
 	philo->next = NULL;
 	philo->timeToDieMs = ft_atoi(av[2]);
