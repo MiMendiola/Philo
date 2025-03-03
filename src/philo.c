@@ -3,33 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   philo.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmendiol <mmendiol@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lmntrix <lmntrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:21:26 by mmendiol          #+#    #+#             */
-/*   Updated: 2025/03/03 17:48:25 by mmendiol         ###   ########.fr       */
+/*   Updated: 2025/03/03 11:53:53 by lmntrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int perror(char *error)
+void show_error(char *error)
 {
     printf(RED"%s\n"CLEAR , error);
-    return (1);
-} 
+}
 
 int main(int ac, char *av[])
 {
-
+    
     if (ac != 5 && ac != 6)
     {
-        perror("Incorrect usage. Please, correct the input.");
+        show_error("Incorrect usage. Please, correct the input.");
+        return (1);
     }
-
     
-    /* Miramos numero de argumentos correctos */
-
-    /* Miramos quue los argumentos sean validos */
 
     /* Guardamos los argumentos ya convertidos */
 
@@ -39,7 +35,7 @@ int main(int ac, char *av[])
 
     /* Crear hilo monitor */
 
-    /* [Creamos os hilos de los filosofos y el monitor => Empiezan a la vez] <= Es nevcesario que empeicen a la vez (sincronización) */
+    /* [Creamos os hilos de los filosofos y el monitor => Empiezan a la vez] <= Es necesario que empeicen a la vez (sincronización) */
 
     /* ROUTINE y MONITOR_ROUTINE */
 
