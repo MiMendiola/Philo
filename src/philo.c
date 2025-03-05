@@ -6,29 +6,59 @@
 /*   By: lmntrix <lmntrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:21:26 by mmendiol          #+#    #+#             */
-/*   Updated: 2025/03/03 11:53:53 by lmntrix          ###   ########.fr       */
+/*   Updated: 2025/03/04 09:10:50 by lmntrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void show_error(char *error)
+int show_error(char *error)
 {
     printf(RED"%s\n"CLEAR , error);
+    return (1);
+}
+
+void print_table(struct s_table *table)
+{
+    if (!table)
+    {
+        printf("Error: Table is NULL\n");
+        return;
+    }
+    printf("Philosopher Count: %d\n", table->philo_nbr);
+    printf("Time to Die (ms): %ld\n", table->timeToDieMs);
+    printf("Time to Eat (ms): %ld\n", table->timeToEatMs);
+    printf("Time to Sleep (ms): %ld\n", table->timeToSleepMs);
+    printf("Max Times Eaten: %d\n", table->maxTimesEaten);
+
+    /*if (table->philos)
+    {
+        printf("\nPhilosopher Data:\n");
+        for (int i = 0; i < table->philo_nbr; i++)
+        {
+            printf("  Philosopher %d:\n", i + 1);
+            // Aquí puedes imprimir los datos de `t_philo` según su estructura
+        }
+    }
+    else
+        printf("No philosophers data available.\n");*/
 }
 
 int main(int ac, char *av[])
 {
+    t_table *table;
     
+    table = ft_calloc(1, sizeof(t_table));
+    if (!table)
+        return (show_error("Memory allocation failed"));
+        
     if (ac != 5 && ac != 6)
-    {
-        show_error("Incorrect usage. Please, correct the input.");
-        return (1);
-    }
+        return (show_error("Incorrect usage. Please, correct the input."));
     
-
-    /* Guardamos los argumentos ya convertidos */
-
+    if (create_table(table, av))
+        return (free(table), 1);
+    
+    print_table(table);
     /* Creamos tenedores */
 
     /* Creamos las estructuras de los philosofos */

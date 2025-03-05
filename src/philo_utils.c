@@ -6,7 +6,7 @@
 /*   By: lmntrix <lmntrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 22:01:44 by mmendiol          #+#    #+#             */
-/*   Updated: 2025/03/03 11:50:28 by lmntrix          ###   ########.fr       */
+/*   Updated: 2025/03/04 07:57:41 by lmntrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,23 +72,3 @@ void	add_node_back(t_philo **stack, t_philo *new)
 		*stack = new;
 }
 
-long	atol_philo(char *str)
-{
-    long n = 0;
-    int i = 0;
-
-    while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-        i++;
-    if (str[i] == '+' || str[i] == '-')
-        if (str[i++] == '-') 
-            return (printf("Only positive numbers allowed\n"), -1);
-    if (str[i] < '0' ||  str[i] > '9')
-        return (printf("Only numbers allowed\n"), -1);
-    while (str[i] >= '0' && str[i] <= '9')
-    {
-        n = n * 10 + (str[i++] - '0');
-        if (n > INT_MAX)
-            return (printf("Number is too big\n"), -1);
-    }
-    return (n);
-}

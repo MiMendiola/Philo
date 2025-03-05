@@ -5,6 +5,8 @@ NAME = philo
 SRC_DIR		=	src/
 
 SRC_FILES	=	philo.c \
+				parser.c \
+				philo_lib.c \
 
 SRC			=	$(addprefix $(SRC_DIR), $(SRC_FILES))
 
@@ -31,7 +33,6 @@ CLEAR	=	\033[0m
 all: $(NAME)
 
 $(NAME) : $(OBJ_FILES)
-	@make -sC libft
 	@echo "$(GREEN)\nCompiling the philo program.$(CLEAR)"
 	@$(CC) $(FLAGS) $(OBJ_FILES) $(INCLUDE) -o $(NAME)
 	@echo "$(GREEN)	      [OK]\n$(CLEAR)$(GREEN)      	    Success!$(CLEAR)\n"
@@ -43,7 +44,6 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 clean:
 	@echo "$(RED)\nRemoving compiled files.$(CLEAR)"
 	@$(RM) $(OBJ_DIR)
-	@make clean -sC libft
 	@echo "$(RED)	[OK]\n$(CLEAR)$(RED)      Success!$(CLEAR)\n"
 	@echo "$(RED)Object files removed correctly\n$(CLEAR)"
 
@@ -51,7 +51,6 @@ fclean:
 	@make clean >/dev/null 2>&1
 	@echo "$(RED)\nRemoving exec. files.$(CLEAR)"
 	@$(RM) $(NAME)
-	@$(RM) $(LIBFT)
 	@echo "$(RED)	[OK]\n$(CLEAR)$(RED)      Success!$(CLEAR)\n"
 	@echo "$(RED)Everything removed correctly\n$(CLEAR)"
 
