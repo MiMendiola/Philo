@@ -6,7 +6,7 @@
 /*   By: lmntrix <lmntrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 18:11:12 by anadal-g          #+#    #+#             */
-/*   Updated: 2025/03/04 09:30:45 by lmntrix          ###   ########.fr       */
+/*   Updated: 2025/03/28 13:25:38 by lmntrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <errno.h>
 
 typedef struct s_philo	t_philo;
+typedef struct s_fork	t_fork;
 typedef struct s_table	t_table;
 
 typedef enum	e_actions
@@ -45,6 +46,12 @@ typedef enum	e_opscode
 	DETACH
 }		t_opscode;
 
+struct  s_fork
+{
+    int				id;
+	pthread_mutex_t	fork;
+};
+
 struct  s_philo
 {
     int				id;
@@ -62,6 +69,7 @@ struct	s_table
 	long		timeToSleepMs;
 	int			maxTimesEaten;
 	int			end_philo;
+	t_fork		*forks;
 	t_philo		*philos;
 };
 
@@ -92,6 +100,12 @@ int show_error(char *error);
 //  PARSER
 long	parse_arguments(char *str);
 int		create_table(t_table *table, char *av[]);
+
+//	HANDLERS
+void    mutex_error_handler(int status, t_opscode code);
+void    mutex_handler(pthread_mutex_t *mutex, t_opscode code);
+void    thread_error_handler(int status, t_opscode code);
+void    thread_handler(pthread_t *thread, void *(*foo)(void *), void *data, t_opscode code);
 
 //	PHILO_UTILS
 void	free_list(t_philo **stack);
