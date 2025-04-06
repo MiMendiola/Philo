@@ -5,8 +5,14 @@ NAME = philo
 SRC_DIR		=	src/
 
 SRC_FILES	=	philo.c \
+				init.c \
+				handlers.c \
+				getters_setters.c \
 				parser.c \
+				simulation.c \
+				syncro.c \
 				philo_lib.c \
+				philo_utils.c \
 
 SRC			=	$(addprefix $(SRC_DIR), $(SRC_FILES))
 

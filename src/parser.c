@@ -28,10 +28,10 @@ int    create_table(t_table *table, char *av[])
     table->timeToEatMs = parse_arguments(av[3]) * 1000;
     table->timeToSleepMs = parse_arguments(av[4]) * 1000;
     if (av[5])
-        table->maxTimesEaten = parse_arguments(av[5]);
+        table->mealsToDo = parse_arguments(av[5]);
     else
-        table->maxTimesEaten = -9;
-    if (table->philo_nbr < 1 || table->timeToDieMs < 1 || table->timeToEatMs < 1 || table->timeToSleepMs < 1 || table->maxTimesEaten == -1)
+        table->mealsToDo = -9;
+    if (table->philo_nbr < 1 || table->timeToDieMs < 1 || table->timeToEatMs < 1 || table->timeToSleepMs < 1 || table->mealsToDo == -1)
         return (1);
     return (0);
 }

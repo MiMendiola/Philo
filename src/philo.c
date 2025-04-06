@@ -6,7 +6,7 @@
 /*   By: lmntrix <lmntrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/03 17:21:26 by mmendiol          #+#    #+#             */
-/*   Updated: 2025/03/28 10:43:51 by lmntrix          ###   ########.fr       */
+/*   Updated: 2025/04/06 14:49:30 by lmntrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void print_table(struct s_table *table)
     printf("Time to Die (ms): %ld\n", table->timeToDieMs);
     printf("Time to Eat (ms): %ld\n", table->timeToEatMs);
     printf("Time to Sleep (ms): %ld\n", table->timeToSleepMs);
-    printf("Max Times Eaten: %d\n", table->maxTimesEaten);
+    printf("Max Times Eaten: %d\n", table->mealsToDo);
 
     /*if (table->philos)
     {
@@ -58,7 +58,9 @@ int main(int ac, char *av[])
     if (create_table(table, av))
         return (free(table), 1);
     
-    print_table(table);
+    init_data(table);
+    simulation_start(table);
+    clean_table(table);
     /* Creamos tenedores */
 
     /* Creamos las estructuras de los philosofos */

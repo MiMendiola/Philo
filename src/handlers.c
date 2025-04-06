@@ -55,9 +55,9 @@ void    thread_handler(pthread_t *thread, void *(*foo)(void *), void *data, t_op
     if (code == CREATE)
         thread_error_handler(pthread_create(thread, NULL, foo, data), code);
     else if (code == JOIN) 
-        thread_error_handler(pthread_join(thread, NULL), code);
+        thread_error_handler(pthread_join(*thread, NULL), code);
     else if (code == DETACH)
-        thread_error_handler(pthread_detach(thread), code);
+        thread_error_handler(pthread_detach(*thread), code);
     else
         printf("error code hilos (nose si esta linea es necesaria, creo que no por eso este mensaje)");
 }

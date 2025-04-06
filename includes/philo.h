@@ -6,7 +6,7 @@
 /*   By: lmntrix <lmntrix@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 18:11:12 by anadal-g          #+#    #+#             */
-/*   Updated: 2025/03/28 13:25:38 by lmntrix          ###   ########.fr       */
+/*   Updated: 2025/04/06 14:44:07 by lmntrix          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,35 @@
 # include <limits.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <stdbool.h>
 # include <unistd.h>
 # include <pthread.h>
 # include <sys/time.h>
 # include <stdint.h>
 # include <errno.h>
 
+# define DEBUG_MODE 0
+
 typedef struct s_philo	t_philo;
 typedef struct s_fork	t_fork;
 typedef struct s_table	t_table;
+
+typedef enum	e_status_philo
+{
+	EATS,
+	SLEEPS,
+	THINKS,
+	TAKE_LEFT_FORK,
+	TAKE_RIGHT_FORK,
+    DIED
+}		t_status_philo;
+
+typedef enum	e_times
+{
+    SECONDS,
+	MILLISECONDS,
+	MICROSECONDS
+}		t_times;
 
 typedef enum	e_actions
 {
@@ -55,22 +75,32 @@ struct  s_fork
 struct  s_philo
 {
     int				id;
-	pthread_t		thread;
-	pthread_mutex_t	lock;
-	t_philo			*prev;
-	t_philo			*next;
+	pthread_t		threadId;
+	int				meals;
+	bool			full;
+	long			lastMeal;
+	t_fork			*leftFork;
+	t_fork			*rightFork;
+	pthread_mutex_t	mutex;
+	t_table			*table;
 };
 
 struct	s_table
 {
-	int			philo_nbr;
-	long		timeToDieMs;
-	long		timeToEatMs;
-	long		timeToSleepMs;
-	int			maxTimesEaten;
-	int			end_philo;
-	t_fork		*forks;
-	t_philo		*philos;
+	int				philo_nbr;
+	long			timeToDieMs;
+	long			timeToEatMs;
+	long			timeToSleepMs;
+	int				mealsToDo;
+	long			startSimulation;
+	bool			endSimulation;
+	bool			threadsReady;
+	long			threadsRunning;
+	pthread_t		monitor;
+	pthread_mutex_t	mutex_table;
+	pthread_mutex_t	mutex_write;
+	t_fork			*forks;
+	t_philo			*philos;
 };
 
 
@@ -108,13 +138,33 @@ void    thread_error_handler(int status, t_opscode code);
 void    thread_handler(pthread_t *thread, void *(*foo)(void *), void *data, t_opscode code);
 
 //	PHILO_UTILS
+long	get_time(t_times time_code);
+void	precise_usleep(long usec, t_table *table);
+void	write_status(t_philo *philo, t_status_philo status, bool debug);
 void	free_list(t_philo **stack);
 t_philo	*last_node(t_philo *lst);
 t_philo	*new_node(int id, char *av[]);
+void    simulation_start(t_table *table);
 void	add_node_back(t_philo **stack, t_philo *new);
 
 //	PHILO_LIB
 void	*ft_calloc(size_t count, size_t size);
 int		ft_isdigit(int c);
+
+//	SIMULATION
+bool    simulation_finish(t_table *table);
+
+//	SYNCRO
+void    threads_waiter(t_table *table);
+
+//	GETTERS_SETTERS
+void    set_bool(pthread_mutex_t *mutex, bool *dst, bool value);
+bool    get_bool(pthread_mutex_t *mutex, bool *value);
+void    set_long(pthread_mutex_t *mutex, long *dst, long value);
+long    get_long(pthread_mutex_t *mutex, long *value);
+
+
+void    init_data(t_table *table);
+void    clean_table(t_table *table);
 
 #endif
