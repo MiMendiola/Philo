@@ -12,6 +12,27 @@
 
 #include "../includes/philo.h"
 
+long	parse_arguments(char *str)
+{
+    long n = 0;
+    int i = 0;
+
+    while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+        i++;
+    if (str[i] == '+' || str[i] == '-')
+        if (str[i++] == '-') 
+            return (show_error("Only positive numbers allowed"), -1);
+    while (str[i])
+    {
+        if (!ft_isdigit(str[i]))
+            return (show_error("Only numbers allowed"), -1);
+        n = n * 10 + (str[i++] - '0');
+        if (n > INT_MAX)
+            return (show_error("Number is too big"), -1);
+    }
+    return (n);
+}
+
 long	get_time(t_times time_code)
 {
 	struct timeval	tv;
@@ -49,9 +70,7 @@ void	precise_usleep(long usec, t_table *table)
 			while (get_time(MICROSECONDS) - start < usec)
 				;
 	}
-	
 }
-
 
 void	write_status_debug(t_philo *philo, t_status_philo status, long elapsed)
 {
@@ -97,85 +116,3 @@ void	write_status(t_philo *philo, t_status_philo status, bool debug)
 	
 	mutex_handler(&philo->table->mutex_write, UNLOCK);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* 
-
-void	free_list(t_philo **stack)
-{
-	t_philo	*aux;
-
-	while (*stack)
-	{
-		aux = (*stack)->next;
-		pthread_mutex_destroy(&aux->lock);
-		free(*stack);
-		*stack = aux;
-	}
-	free(stack);
-}
-
-t_philo	*last_node(t_philo *lst)
-{
-	while (lst && lst->next != NULL)
-		lst = lst->next;
-	return (lst);
-}
-
-t_philo	*new_node(int id, char *av[])
-{
-	t_philo	*philo;
-
-	philo = ft_calloc(1, sizeof(t_philo));
-	if (!philo)
-		return (NULL);
-	philo->id = id;
-	pthread_create(&philo->thread, NULL, philo_routine, (void *)philo);
-//	pthread_mutex_init(&philo->lock, NULL);
-	philo->prev = NULL;
-	philo->next = NULL;
-	philo->timeToDieMs = ft_atoi(av[2]);
-	philo->timeToEatMs = ft_atoi(av[3]);
-	philo->timeToSleepMs = ft_atoi(av[4]);
-	if (av[5])
-		philo->maxTimesEaten = ft_atoi(av[5]);
-	else
-		philo->maxTimesEaten = INT_MAX;
-	if ((philo->timeToDieMs == INT_MAX + 1) || (philo->timeToEatMs == INT_MAX + 1) || (philo->timeToSleepMs == INT_MAX + 1) || (philo->maxTimesEaten == INT_MAX + 1))
-		return(free(philo), NULL);
-	return (philo);
-}
-
-void	add_node_back(t_philo **stack, t_philo *new)
-{
-	t_philo	*aux;
-
-	aux = last_node(*stack);
-	if (*stack != NULL)
-	{
-		new->prev = aux;
-		new->next = NULL;
-		aux->next = new;
-	}
-	else
-		*stack = new;
-}
- */

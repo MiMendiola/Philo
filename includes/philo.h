@@ -127,35 +127,9 @@ struct	s_table
 /*===========================================*/
 int show_error(char *error);
 
-//  PARSER
-long	parse_arguments(char *str);
-int		create_table(t_table *table, char *av[]);
-
-//	HANDLERS
-void    mutex_error_handler(int status, t_opscode code);
-void    mutex_handler(pthread_mutex_t *mutex, t_opscode code);
-void    thread_error_handler(int status, t_opscode code);
-void    thread_handler(pthread_t *thread, void *(*foo)(void *), void *data, t_opscode code);
-
-//	PHILO_UTILS
-long	get_time(t_times time_code);
-void	precise_usleep(long usec, t_table *table);
-void	write_status(t_philo *philo, t_status_philo status, bool debug);
-void	free_list(t_philo **stack);
-t_philo	*last_node(t_philo *lst);
-t_philo	*new_node(int id, char *av[]);
-void    simulation_start(t_table *table);
-void	add_node_back(t_philo **stack, t_philo *new);
-
-//	PHILO_LIB
-void	*ft_calloc(size_t count, size_t size);
-int		ft_isdigit(int c);
-
-//	SIMULATION
-bool    simulation_finish(t_table *table);
-
-//	SYNCRO
-void    threads_waiter(t_table *table);
+//	ACTIONS
+void    thinking(t_philo *philo, bool presimulation);
+void    eat(t_philo *philo);
 
 //	GETTERS_SETTERS
 void    set_bool(pthread_mutex_t *mutex, bool *dst, bool value);
@@ -163,8 +137,43 @@ bool    get_bool(pthread_mutex_t *mutex, bool *value);
 void    set_long(pthread_mutex_t *mutex, long *dst, long value);
 long    get_long(pthread_mutex_t *mutex, long *value);
 
+//	HANDLERS
+void    mutex_error_handler(int status, t_opscode code);
+void    mutex_handler(pthread_mutex_t *mutex, t_opscode code);
+void    thread_error_handler(int status, t_opscode code);
+void    thread_handler(pthread_t *thread, void *(*foo)(void *), void *data, t_opscode code);
 
+//  INIT
+void    assign_forks(t_philo *philo, t_fork *forks, int philoPosition);
+void    init_philo(t_table *table);
 void    init_data(t_table *table);
-void    clean_table(t_table *table);
+int		init_table(t_table *table, char *av[]);
+
+//	PHILO_LIB
+void	*ft_memset(void *str, int value, size_t len);
+void	ft_bzero(void *str, size_t len);
+void	*ft_calloc(size_t count, size_t size);
+int		ft_isdigit(int c);
+
+//	PHILO_UTILS
+long	parse_arguments(char *str);
+long	get_time(t_times time_code);
+void	precise_usleep(long usec, t_table *table);
+void	write_status_debug(t_philo *philo, t_status_philo status, long elapsed);
+void	write_status(t_philo *philo, t_status_philo status, bool debug);
+
+//	SIMULATION
+bool    simulation_finish(t_table *table);
+void    *simulation_dinner(void *data);
+void    *simulation_monitor(void *data);
+void    *alone_philo(void *data);
+void    simulation_start(t_table *table);
+
+//	SYNCRO
+void    increase_long(pthread_mutex_t *mutex, long *value);
+void    syncronizing_philos(t_philo *philo);
+void    threads_waiter(t_table *table);
+bool    threads_running(pthread_mutex_t *mutex, long *threads, long philo_nbr);
+bool    philo_died(t_philo *philo);
 
 #endif

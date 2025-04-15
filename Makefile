@@ -4,15 +4,15 @@ NAME = philo
 # SOURCE FILES
 SRC_DIR		=	src/
 
-SRC_FILES	=	philo.c \
-				init.c \
-				handlers.c \
+SRC_FILES	=	actions.c \
 				getters_setters.c \
-				parser.c \
-				simulation.c \
-				syncro.c \
+				handlers.c \
+				init.c \
 				philo_lib.c \
 				philo_utils.c \
+				philo.c \
+				simulation.c \
+				syncro.c \
 
 SRC			=	$(addprefix $(SRC_DIR), $(SRC_FILES))
 

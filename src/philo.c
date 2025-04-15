@@ -30,18 +30,24 @@ void print_table(struct s_table *table)
     printf("Time to Eat (ms): %ld\n", table->timeToEatMs);
     printf("Time to Sleep (ms): %ld\n", table->timeToSleepMs);
     printf("Max Times Eaten: %d\n", table->mealsToDo);
+}
 
-    /*if (table->philos)
+void    clean_table(t_table *table)
+{
+    int i;
+    t_philo *philo;
+
+    i = 0;
+    while (table->philo_nbr > i)
     {
-        printf("\nPhilosopher Data:\n");
-        for (int i = 0; i < table->philo_nbr; i++)
-        {
-            printf("  Philosopher %d:\n", i + 1);
-            // Aquí puedes imprimir los datos de `t_philo` según su estructura
-        }
+        philo = table->philos + i;
+        mutex_handler(&philo->mutex, DESTROY);
+        i++;
     }
-    else
-        printf("No philosophers data available.\n");*/
+    mutex_handler(&table->mutex_write, DESTROY);
+    mutex_handler(&table->mutex_table, DESTROY);
+    free(table->forks);
+    free(table->philos);
 }
 
 int main(int ac, char *av[])
@@ -55,28 +61,12 @@ int main(int ac, char *av[])
     if (ac != 5 && ac != 6)
         return (show_error("Incorrect usage. Please, correct the input."));
     
-    if (create_table(table, av))
+    if (init_table(table, av))
         return (free(table), 1);
     
     init_data(table);
     simulation_start(table);
     clean_table(table);
-    /* Creamos tenedores */
-
-    /* Creamos las estructuras de los philosofos */
-
-    /* Crear hilo monitor */
-
-    /* [Creamos os hilos de los filosofos y el monitor => Empiezan a la vez] <= Es necesario que empeicen a la vez (sincronización) */
-
-    /* ROUTINE y MONITOR_ROUTINE */
-
-    /* Liberar memoria - Eliminar todos */
 
     return (0);
 }
-
-
-// for (int i = 0; i < philo_count; i++)
-//     pthead_create(&philo[i].thread, NULL, philo_routine, &philo[i]);
-// pthead_create(&monitor_thread, NULL, monitor_routine, &gloabl_data)
