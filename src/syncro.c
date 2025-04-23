@@ -6,7 +6,7 @@
 /*   By: mmendiol <mmendiol@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 15:27:20 by mmendiol          #+#    #+#             */
-/*   Updated: 2025/04/22 15:36:18 by mmendiol         ###   ########.fr       */
+/*   Updated: 2025/04/23 16:30:19 by mmendiol         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ bool	philo_died(t_philo *philo)
 		return (false);
 	elapsed = get_time(MILLISECONDS) - get_long(&philo->mutex,
 			&philo->last_meal);
-	time_die = philo->table->time_to_die_ms / 1000;
+	time_die = philo->table->time_to_die_ms;
 	return (elapsed >= time_die);
 }
